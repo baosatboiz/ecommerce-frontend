@@ -1,13 +1,16 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
 import imgSrc from "../assets/images.png";
+import {useNavigate} from 'react-router-dom'
 
-export default function LoginForm() {
-  const [isSignUp, setIsSignUp] = useState(false);
+export default function LoginForm({isLogin,setToken}) {
+  const [isSignUp, setIsSignUp] = useState(!isLogin);
   const [username, setUserName] = useState("");
   const [pass, setPass] = useState("");
   const [confirm, setConfirm] = useState("");
   const [email, setEmail] = useState("");
+  
+  const navigate = useNavigate();
 
   const handleSubmit = () => {
     const payload = isSignUp
@@ -20,7 +23,10 @@ export default function LoginForm() {
       body: JSON.stringify(payload)
     })
       .then(res => res.json())
-      .then(data => console.log(data.token || data.message))
+      .then(data => {
+        localStorage.setItem('token',data.token);
+        navigate('/home')
+      })
       .catch(err => console.log(err));
   };
 
