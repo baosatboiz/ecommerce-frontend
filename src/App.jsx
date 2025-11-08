@@ -12,6 +12,7 @@ import {BrowserRouter as Router,
 import ProtectedRoute from './component/ProtectedRoute'
 import SearchResult from './component/SearchResult'
 import ProductDetail from './component/ProductDetail'
+import ProductCheckout from './component/ProductCheckout'
 
 function App() {
   const [token,setToken] = useState(null);
@@ -24,6 +25,7 @@ function App() {
         <Route path='/home' element={<ProtectedRoute><Home/></ProtectedRoute>}></Route>
         <Route path='/search' element={<SearchResult/>}></Route>
         <Route path='/product/:id' element={<ProductDetail/>}></Route>
+        <Route path='/checkout' element={<ProductCheckout/>}></Route>
       </Routes>
     </Router>
   )

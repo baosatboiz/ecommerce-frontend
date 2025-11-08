@@ -45,7 +45,7 @@ export default function TopBar2(){
                 </div>
             </div>
             <div className='row align-items-center py-1 px-md-5'>
-                <div className='col-auto'>
+                <div className='col-auto d-none d-sm-block'>
                     <h2>🛒 Shopee</h2>
                 </div>
                 <div className='col'>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import fetchModel from "../fetchModelData/fetchModel";
 import TopBar2 from "./Topbar2";
 import DOMPurify from 'dompurify';
@@ -12,6 +12,9 @@ export default function ProductDetail({}){
     const [clicked,setClicked] = useState({});
     const {id} = useParams();
     const [price,setPrice] = useState();
+    const [quantity,setQuantity] = useState(1);
+    const [selectedVariant,setSelectedVariant] = useState(null);
+    const navigate = useNavigate();
     useEffect(()=>{
         const fetch = async () =>{
             const data = await fetchModel(`/product/${id}`);
@@ -25,9 +28,20 @@ export default function ProductDetail({}){
         const allClicked = product?.options?.every(opt=>clicked[opt.name]);
         if(allClicked){
             const variant = product.variants.find((v)=>Object.entries(v.attributes).every(([key,value])=>clicked[key]===value));
-            if(variant) setPrice(variant.price);
+            if(variant) {
+                setSelectedVariant(variant);
+                setPrice(variant.price.toLocaleString("vi-VN"));
         }
+    }
     },[clicked])
+    const handleBuy = async ()=>{
+        const variantId = selectedVariant.id;
+        const productName = product.name;
+        const productSeller = product.sellerName;
+        const items = {productName,productSeller,quantity,...selectedVariant};
+        const data= await fetchModel(`/${variantId}/stock`)
+        if(data) navigate("/checkout",{state:{items}})
+    }
     const images = product?.imageUrls||[];
     const description = DOMPurify.sanitize(product?.description||'');
     return (
@@ -51,9 +65,9 @@ export default function ProductDetail({}){
                         <div className="bg-light px-3">
                             <p className="fs-3 text-danger fw-medium">{price} VND</p>
                         </div>
-                        {product.options.length!==0?
+                        {product.options?.length!==0?
                         <div className="d-flex flex-column gap-2">
-                        {product.options.map(option=>
+                        {product.options?.map(option=>
                             <div className="d-flex text-dark-emphasis gap-2">
                                 <p className="col-2">{option.name}</p>
                                 <div className="col-10 d-flex gap-2 flex-wrap">
@@ -65,7 +79,7 @@ export default function ProductDetail({}){
                                               ...prev,
                                               [option.name]:ov.value
                                             }))
-                                          }                                                                                  >
+                                          }>
                                         {ov.value}
                                         {ov.value===clicked[option.name]?
                                         <span className="d-block position-absolute bottom-0 end-0 text-end" style={{height:"20px",width:"20px", background:"red", clipPath:"polygon(0 100%,100% 0,100% 100%)"}}>    ✓   </span>
@@ -79,9 +93,16 @@ export default function ProductDetail({}){
                         :
                         
                         <p>Null</p>}
-                        <div className="row  ms-0 gap-3 mt-4">
-                            <button className="col-4 p-2 bg-danger text-white border border-0">Mua ngay</button>
-                            <button className="col-5 p-2 border border-danger text-danger">Thêm vào giỏ hàng</button>
+                        <div className="d-flex text-dark-emphasis gap-2 mt-2">
+                        <p className="col-2">Số lượng</p>
+                        <button className="btn btn-outline-secondary" onClick={()=>setQuantity(prev=>prev-1)} disabled={quantity===1}>-</button>
+                        <input className="border border-secondary rounded text-center" value={quantity}readOnly style={{width:"60px"}}></input>
+                        <button className="btn btn-outline-secondary" onClick={()=>setQuantity(prev=>prev+1)} disabled={!selectedVariant||quantity===selectedVariant.stock}>+</button>
+                        </div>
+                        {selectedVariant?<p className="text-dark-emphasis">Kho: {selectedVariant.stock}</p>:<p><br/></p>}
+                        <div className="row  ms-0 gap-3 mt-4 justify-content-center justify-content-lg-start">
+                            <button className="col-4 p-2 btn btn-danger" disabled={product?.options?.some(opt=>!clicked[opt.name])} onClick={handleBuy}>Mua ngay</button>
+                            <button className="col-5 p-2 btn btn-outline-danger" disabled={product?.options?.some(opt=>!clicked[opt.name])}>Thêm vào giỏ hàng</button>
                         </div>
                         </>
                         :<h3>Loading...</h3>
