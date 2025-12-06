@@ -28,7 +28,7 @@ export default function ProductCard({ product }) {
             {product.name}
           </p>
           <p className="card-text text-danger fw-bold">
-            {Number(product.price).toLocaleString("vi-VN")} VND
+            {Number(product.variants?.[0]?.price ?? product.price).toLocaleString("vi-VN")} VND
           </p>
         </div>
       </div>

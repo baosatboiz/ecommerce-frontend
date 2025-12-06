@@ -1,0 +1,62 @@
+[
+  {
+    "name": "SKATE BOARDING, free your jump, mã G137. Áo thun nam nữ in siêu đẹp. Áo phông thoát nhiệt GOKING hàng hiệu cao cấp",
+    "price": 79200,
+    "type": "configurable",
+    "description": "• GOKING cam kết mang tới cho bạn 1 chiếc áo thun (áo phông) với chất liệu vải thun thoáng mát, thấm hút mồ hôi, công nghệ thoát nhiệt hiện đại từ Nhật Bản.• Áo thun Goking được chứng nhận chất lượn...",
+    "images": [
+      null
+    ],
+    "options": [
+      {
+        "code": "option1",
+        "name": "Màu",
+        "position": 0,
+        "show_preview_image": true,
+        "values": [
+          {
+            "label": "Navy, vải thun lạnh"
+          },
+          {
+            "label": "Đen, vải thun lạnh"
+          }
+        ]
+      },
+      {
+        "code": "option2",
+        "name": "Kích cỡ",
+        "position": 0,
+        "show_preview_image": false,
+        "values": [
+          {
+            "label": "XS"
+          }
+        ]
+      }
+    ],
+    "variants": [
+      {
+        "price": 99000,
+        "qty": 1000,
+        "attributes": {
+          "Màu": "Đen, vải thun lạnh",
+          "Kích cỡ": "XS"
+        },
+        "images": [
+          null
+        ]
+      },
+      {
+        "price": 99000,
+        "qty": 1000,
+        "attributes": {
+          "Màu": "Navy, vải thun lạnh",
+          "Kích cỡ": "XS"
+        },
+        "images": [
+          null
+        ]
+      }
+    ]
+  }
+]

@@ -20,14 +20,15 @@ export default function ProductDetail({}){
             const data = await fetchModel(`/product/${id}`);
             setProduct(data);
             setMainImg(data?.imageUrls[0]||'')
-            setPrice(data.price.toLocaleString("vi-VN"));
+            setPrice((data.variants?.[0]?.price??data.price).toLocaleString("vi-VN"));
+
         }
         fetch();
     },[id])
     useEffect(()=>{
         const allClicked = product?.options?.every(opt=>clicked[opt.name]);
         if(allClicked){
-            const variant = product.variants.find((v)=>Object.entries(v.attributes).every(([key,value])=>clicked[key]===value));
+            const variant = product?.variants?.find((v)=>Object.entries(v.attributes).every(([key,value])=>clicked[key]===value));
             if(variant) {
                 setSelectedVariant(variant);
                 setPrice(variant.price.toLocaleString("vi-VN"));
@@ -35,11 +36,22 @@ export default function ProductDetail({}){
     }
     },[clicked])
     const handleBuy = async ()=>{
-        const variantId = selectedVariant.id;
+        const subProductInfor ={
+            id : product.id,
+            imgUrl:mainImg,
+            price : product.price
+        }
+        console.log("handle")
         const productName = product.name;
         const productSeller = product.sellerName;
-        const items = {productName,productSeller,quantity,...selectedVariant};
-        const data= await fetchModel(`/${variantId}/stock`)
+        const items = {productName,productSeller,quantity,...(selectedVariant||subProductInfor)};
+        const req = {type:(selectedVariant?"variant":"product"),id: (selectedVariant?selectedVariant.id:product.id), quantity};
+        const data= await fetchModel("/stock",{
+            method:"POST",
+            body:JSON.stringify(req)
+            }
+            )
+        console.log(data);
         if(data) navigate("/checkout",{state:{items}})
     }
     const images = product?.imageUrls||[];

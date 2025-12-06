@@ -21,6 +21,7 @@ export default function Home(){
         };
         fetchData();
       }, []);
+      
     return (
         <div>
             <TopBar2/>
