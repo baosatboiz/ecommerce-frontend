@@ -7,7 +7,6 @@ export default function ProductCard({ product }) {
   const imageUrl = Array.isArray(product.imageUrls) && product.imageUrls.length > 0 
     ? product.imageUrls[0] 
     : null;
-
   const resolvedImageUrl = imageUrl?.startsWith("/upload")
     ? `${import.meta.env.VITE_API_URL}${imageUrl}`
     : imageUrl;

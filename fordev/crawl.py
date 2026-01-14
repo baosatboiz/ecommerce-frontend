@@ -39,7 +39,7 @@ def extract_images(detail_or_variant, fallback_url=None):
     return images
 
 def main():
-    products = get_products(query="áo",limit=5,page=1)
+    products = get_products(query="điện thoại",limit=20,page=1)
 
     result = []
 

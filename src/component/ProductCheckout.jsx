@@ -9,7 +9,7 @@ export default function ProductCheckout() {
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
 
-  const variant = items.attributes?Object.entries(items.attributes)
+  const variant = items?Object.entries(items.attributes)
     .map(([key, value]) => `${key} ${value}`)
     .join(", "):null;
 

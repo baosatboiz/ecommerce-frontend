@@ -14,7 +14,7 @@ export default function TopBar2(){
     const [input,setInput] = useState("");
     const navigate = useNavigate();
     const handleSearch = ()=>{
-        navigate(`/search?key=${input}`)
+        navigate(`/search?keyWord=${input}`)
     }
     const handleKeyDown = (e)=>{
         if(e.key==='Enter') handleSearch();

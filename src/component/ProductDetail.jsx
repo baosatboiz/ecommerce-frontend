@@ -89,7 +89,7 @@ export default function ProductDetail({}){
                                         onClick={() =>
                                             setClicked(prev => ({
                                               ...prev,
-                                              [option.name]:ov.value
+                                              [option.name]:prev[option.name]===ov.value?null:ov.value
                                             }))
                                           }>
                                         {ov.value}
@@ -124,7 +124,7 @@ export default function ProductDetail({}){
             </div>
             <div className="container mt-4">
             <div className="row">
-                    <div className="col-lg-10 col-12 bg-white" dangerouslySetInnerHTML={{__html:description}}></div>
+                    <div className="col-lg-10 col-12 bg-white overflow-auto" dangerouslySetInnerHTML={{__html:description}}></div>
                     <div className="col-lg-2 col-12 bg-light"></div>
                 </div>
             </div>

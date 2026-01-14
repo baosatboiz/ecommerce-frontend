@@ -5,7 +5,5 @@ import App from './App.jsx'
 import ProtectedRoute from './component/ProtectedRoute.jsx'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
     <App />
-  </StrictMode>,
 )
